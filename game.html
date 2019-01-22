@@ -1,5 +1,5 @@
 <html>
-Some text here.
+Some text here, now. Sure enough.
 <canvas id="gameCanvas" width="800" height="600"></canvas>
 
 <script>
@@ -25,6 +25,9 @@ Some text here.
   function moveEverything() {
     ballX = ballX + ballSpeedX;
     if(ballX > canvas.width) {
+           ballSpeedX = -ballSpeedX;
+    }
+    if(ballX < 0) {
            ballSpeedX = -ballSpeedX;
     }
    
