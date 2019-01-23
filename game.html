@@ -1,5 +1,5 @@
 <html>
-Some text here, now. Sure enough.
+
 <canvas id="gameCanvas" width="800" height="600"></canvas>
 
 <script>
@@ -10,6 +10,20 @@ Some text here, now. Sure enough.
     var ballSpeedX = 10;
     var ballSpeedY = 4;
 
+    var paddle1Y = 250;
+    const PADDLE_HEIGHT = 100;
+
+    function calculateMousePos(evt) {
+      var rect = canvas.getBoundingClientRect();
+      var root = document.documentElement;
+      var mouseX = evt.clientX - rect.left - root.scrollLeft;
+      var mouseY = evt.clientY - rect.top - root.scrollTop;
+      return {
+        x:mouseX,
+        y:mouseY
+      };
+    }
+
     window.onload = function() {
         
         canvas = document.getElementById('gameCanvas');
@@ -19,6 +33,12 @@ Some text here, now. Sure enough.
             moveEverything();
             drawEverything();
         }, 1000/framesPerSecond);
+        //the following connects mouse movment with game
+        canvas.addEventListener('mousemove',
+        function(evt) {
+          var mousePos = calculateMousePos(evt);
+          paddle1Y = mousePos.y;
+        })
 
         drawEverything();
         drawEverything();
@@ -51,7 +71,7 @@ Some text here, now. Sure enough.
      //next line black out the screen with black
        colorRect(0, 0, canvas.width, canvas.height, 'black');
       //this is left player paddle
-       colorRect(0, 210, 10, 100, 'white');
+       colorRect(0, paddle1Y, 10, 100, 'white');
        //next line creates ball 
        colorCircle(ballX, ballY, 10, 'white');
      
