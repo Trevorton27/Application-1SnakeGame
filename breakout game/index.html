@@ -45,11 +45,21 @@ for(var c=0; c<brickColumnCount; c++) {
         bricks[c][r] = { x: 0, y: 0, status: 1};
     }
 }
+var score = 0;
+var lives = 3;
 
 //event listener for arrow button interaction on keyboard
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
+document.addEventListener("mousemove", mouseMoveHandler, false);
 
+
+function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth/2;
+    }
+}
 //changes rightPressed and leftPressed variables to "true" when correspondent keys are pressed
 function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
@@ -68,7 +78,7 @@ function keyUpHandler(e) {
         leftPressed = false;
     }
 }
-//defines ball and brick collision detction
+//defines ball and brick collision detection
 function collisionDetection() {
     //calls brick column and row arrays
     for(var c=0; c<brickColumnCount; c++) {
@@ -86,10 +96,29 @@ function collisionDetection() {
                 if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
                     dy = -dy;
                     b.status = 0;
+                    score++;
+                    if(score == brickRowCount*brickColumnCount) {
+                        
+                        alert("YOU WIN, CONGRATULATIONS!");
+                        document.location.reload();
+                        //clearInterval(interval); // Needed for Chrome to end game
+                    }
                 }
             }
         }
     }
+}
+
+function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillstyle = "#0095DD";
+    ctx.fillText("Score: "+score, 8, 20);
+}
+
+function drawLives() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives: "+lives, canvas.width - 65, 20);
 }
 
 //coordinates size, shape and color of ball
@@ -116,8 +145,10 @@ function drawBricks() {
     for(var c=0; c<brickColumnCount; c++) {
         for(var r=0; r<brickRowCount; r++) {
             if(bricks[c][r].status == 1) {
+                //designates spatial relationships of bricks
                 var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
                 var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+                //allows "brickX/Y" vars respectively to apply to both brick rows and columns
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
@@ -130,12 +161,14 @@ function drawBricks() {
     }
 }
 
-//coordinates interaction of ball with canvas boundaries as well as with paddle
+//coordinates interaction of ball with canvas boundaries, bricks (collision) as well as with paddle
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawBall();
     drawPaddle();
+    drawScore();
+    drawLives();
     collisionDetection();
     x += dx;
     y += dy;
@@ -147,37 +180,47 @@ else if(leftPressed && paddleX > 0) {
     paddleX -= 7;
 }
    //coordinates interaction of ball with canvas boundaries and with paddle
-    
+        //tells ball to reverse directions if it touches sides of box
     if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
     }
+    //tells ball to reverse directions if it touches top of box
     if(y + dy < ballRadius) {
     dy = -dy;
+    //combines parameters for ball hitting top of paddle or bottom of canvase respectively
 } else if(y + dy > canvas.height-ballRadius) {
-    if(x >paddleX && x < paddleX + paddleWidth) {
+    //reverse directions if ball collides with top of paddle
+    if(x > paddleX && x < paddleX + paddleWidth) {
         dy = -dy;
     }
-    //i
+    //otherwise Game over and reload
    else { 
-    alert("GAME OVER");
+       lives--;
+       if(!lives) {
+        alert("GAME OVER");
     document.location.reload();
-    clearInterval(interval); // Needed for Chrome to end game
+    //clearInterval(interval); // Needed for Chrome to end game
+       }
+   else {
+       x = canvas.width/2;
+       y = canvas.height-30;
+       dx = 2;
+       dy = -2;
+       paddleX = (canvas.width - paddleWidth)/2;
+   }
 }
     
 
    
 }
-}
+requestAnimationFrame(draw);}
    
 
 
 
-//declares the interval at what the draw(); function will be reset in milliseconds respectively
-var interval = setInterval(draw, 10); 
-
-
-
-
+//declares the interval at what the draw(); function will be reset in milliseconds res//pectively
+//var interval = setInterval(draw, 10); 
+draw();
 </script>
 
 </body>
