@@ -22,7 +22,7 @@
 <canvas id="myCanvas" width="600" height="600"></canvas>
 
 <script>
-       	/*****
+      	/*****
  * deliverables:
  * snake game ends when
  * 1 snake touches itself
@@ -36,49 +36,50 @@
 
 
 var gameCanvas = document.getElementById("myCanvas");
-var ctx = myCanvas.getContext("2d");
+let ctx = myCanvas.getContext("2d");
 //apple size
 var appleX = 10;
 var appleY = 10;
-//var x = myCanvas.width;
-//var y = myCanvas.height;
 
-//snake vars go here
 var snake = [
-        {x: 150, y: 150},
-        {x: 140, y: 150},
-        {x: 130, y: 150},
-        {x: 120, y: 150},
-        {x: 110, y: 150}
-         ];
-//snake movement vars go here
+  {x: 150, y: 150},
+  {x: 140, y: 150},
+  {x: 130, y: 150},
+  {x: 120, y: 150},
+  {x: 110, y: 150}
+ ];
+
+ //snake movement vars go here
 var dx = 10;
 var dy = 0;
 //score vars go here
 //lives vars go here
 
 ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
-
 ctx.strokeRect(0, 0, myCanvas.width, myCanvas.height);
 
+function Draw() {
+ ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+ drawApple();
+ moveSnake();
+ drawSnake();
+}
 
 
 function drawApple() {
-ctx.fillStyle = 'red';
-ctx.strokestyle = 'darkred';
-ctx.fillRect(100, 100, appleX, appleY);
-ctx.strokeRect(100,  100, appleX, appleY)
-
+ ctx.fillStyle = 'red';
+ ctx.strokestyle = 'darkred';
+ ctx.fillRect(100, 100, appleX, appleY);
+ ctx.strokeRect(100,  100, appleX, appleY)
 }
 
-drawApple();
-moveSnake();
-createSnake();
 
 
-function createSnake() {
-snake.forEach(drawSnakePart)
+
+function drawSnake() {
+ snake.forEach(drawSnakePart)
 }
+
 
 function drawSnakePart(snake) {
   ctx.fillStyle = 'lightgreen';
@@ -88,11 +89,16 @@ function drawSnakePart(snake) {
 }
 
 function moveSnake() {
-    for (var i = 0; i < snake.length; i++) {
-       createSnake();
-}
+    for (var i = 0; i < snake.length; i++) {   
+    snake[i].x += dx 
+    } 
+   
+   
+     
+      
+ }
+setInterval(Draw, 1000);
 
-}
 
 
 
@@ -122,6 +128,13 @@ function showLives() {
 }
 */
  
+  
+
+
+
+
+
+
 
 </script>
 
