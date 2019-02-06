@@ -43,7 +43,7 @@
             EAST: 'EAST',
             WEST: 'WEST'
         };
-       // var head = snake[0];
+     
       	const snake = [{
       	        x: 150,
       	        y: 150
@@ -101,7 +101,7 @@
       	        snakeDirection = DIRECTION.SOUTH;
       	    }
       	}
-      	//changes rightPressed and leftPressed variables to "false" when correspondent keys are released
+      	
       	
 
       	function drawApple() {
@@ -122,10 +122,13 @@
       	    ctx.strokeRect(snake.x, snake.y, 10, 10);
       	}
 
+      
+
       	function moveSnake() {
       	    for (var i = 0; i < snake.length; i++) {
                   
-                  if (snakeDirection === DIRECTION.EAST) {
+                if(i === 0) {
+                    if (snakeDirection === DIRECTION.EAST) {
                       snake[i].x += dx;
                   }
                   if (snakeDirection === DIRECTION.WEST) {
@@ -136,11 +139,20 @@
                   }
                   if (snakeDirection === DIRECTION.SOUTH) {
                       snake[i].y += dy;
+                  } else if (i !== 0) {snake.push(snake);
+                  //else if (i !== 0) {snake.push({x: dx, y: dy});
+
                   }
-              }
+                  
+                  
+
+                }
+                  
+            }
+
       	    
 
-      	}
+      	
 
       	setInterval(Draw, 1000);
       	/*
