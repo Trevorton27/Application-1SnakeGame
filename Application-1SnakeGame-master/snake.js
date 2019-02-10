@@ -173,26 +173,20 @@
         //var headY = snake[0].y;
 
    	    if (snake[0].x == appleLocation.x && snake[0].y == appleLocation.y) {
+			for (var i = 0; i < snake.length; i++)	{
          appleLocation.x =  Math.floor(Math.random() * 50) * 10;
-         appleLocation.y =  Math.floor(Math.random() * 50) * 10;
+		 appleLocation.y =  Math.floor(Math.random() * 50) * 10;
+		 
+			 snake[0]++;
+			 snakeCopy[0]++;
+			}
+		  
    	   
-   	    }
    	}
-
+}
    	console.log(eatApple());
 
 
 
-   	setInterval(Draw, 1000);
-   	/*
-      	function placeAppleRandomly() {
-      	 
-      	 }
-      
-      	function growSnake() {
-      	}
-      	function showScore() {
-      	}
-      	function showLives() {
-      	}
-      	*/  
+   	setInterval(Draw, 500);
+   	
