@@ -15,10 +15,7 @@
 	var appleWidth = 10;
 	var appleHeight = 10;
 
-	var appleLocation = {
-	    x: 250,
-	    y: 150 
-	}
+	
 
 	const DIRECTION = {
 	    NORTH: 'NORTH',
@@ -27,7 +24,27 @@
 	    WEST: 'WEST'
 	};
 
-	const snake = [{
+	var snake;
+	var snakeDirection;
+	var score;
+	var appleLocation;
+	var gameOver;
+
+	var dx = 10;
+	var dy = 10;
+	
+	var lives = 3;
+
+
+
+	ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+	ctx.strokeRect(0, 0, myCanvas.width, myCanvas.height);
+
+	document.addEventListener("keydown", keyDownHandler, false);
+	document.addEventListener('mousedown', handleMouseClick);
+
+	function startGame() {
+		snake = [{
 	        x: 150,
 	        y: 150
 	    },
@@ -68,43 +85,31 @@
 	        y: 150
 	    }
 	];
+	
+	snakeDirection = DIRECTION.EAST;
+	appleLocation = {
+	    x: 250,
+		y: 150	
+	};
+	score = 0;
 
-
-	console.log(collision);
-
-	var snakeDirection = DIRECTION.EAST;
-
-
-
-	var dx = 10;
-	var dy = 10;
-
-	var score = 0;
-	var lives = 3;
-
-
-
-	var snakeTail = snake[snake.length - 1];
-
-
-	ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
-	ctx.strokeRect(0, 0, myCanvas.width, myCanvas.height);
-	document.addEventListener("keydown", keyDownHandler, false);
+	gameInterval = setInterval(Draw, 100);
+}
 
 	function Draw() {
-	    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+		ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+	//	var showingGameOver = false;
+
 	    drawApple();
 	    moveSnake();
 	    drawSnake();
 	    collision();
 	    eatApple();
-	    drawScore();
-
-
+		drawScore();
 	}
 
 	function keyDownHandler(e) {
-
 	    if (e.key == "Right" || e.key == "ArrowRight") {
 	        snakeDirection = DIRECTION.EAST;
 	    } else if (e.key == "Left" || e.key == "ArrowLeft") {
@@ -115,8 +120,6 @@
 	        snakeDirection = DIRECTION.SOUTH;
 	    }
 	}
-
-
 
 	function drawApple() {
 	    ctx.fillStyle = 'red';
@@ -129,8 +132,6 @@
 	    snake.forEach(drawSnakePart)
 	}
 
-
-
 	function drawSnakePart(snake) {
 	    ctx.fillStyle = 'lightgreen';
 	    ctx.strokestyle = 'darkgreen';
@@ -138,13 +139,9 @@
 	    ctx.strokeRect(snake.x, snake.y, 10, 10);
 	}
 
-
-
 	function moveSnake() {
 	    //create copy of snake
 	    var snakeCopy = [];
-
-
 
 	    //loop through snake 
 	    for (var i = 0; i < snake.length; i++) {
@@ -172,55 +169,47 @@
 	        } else {
 	            snake[i].x = snakeCopy[i - 1].x;
 	            snake[i].y = snakeCopy[i - 1].y;
-
 	        }
-
 	    }
-
 	}
 
 	function collision() {
 	    var headX = snake[0].x;
 	    var headY = snake[0].y;
 
-
 	    if (headX >= myCanvas.width || headY >= myCanvas.height || headY <= myCanvas.height - 610 || headX <= myCanvas.width - 610) {
-
-	        alert("GAME OVER. You hit the wall. Poor snaky.");
-	        document.location.reload();
+			ctx.fillText("GAME OVER. You hit the wall. Poor snaky.", 120, 300);
+			stopGame(gameInterval);//stop the game
+			gameOver = true;
 	    } else {
 	        snakeBodyCollision();
 	    }
-
-
-
+			
+	
 	}
-	console.log(collision());
 
 	function snakeBodyCollision() {
 	    for (var i = 1; i < snake.length; i++)
 	        if (snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
-	            alert("Oh, boy. You just bit yourself. GAME OVER.");
-	            document.location.reload();
+	            ctx.fillText("Oh, boy. You just bit yourself. GAME OVER.", 120, 300);
+	            stopGame(gameInterval);//stop the game
+			gameOver = true;
 	        }
 	}
 
 	function eatApple() {
-
-
 	    if (snake[0].x == appleLocation.x && snake[0].y == appleLocation.y) {
 
 	        appleLocation.x = Math.floor(Math.random() * 50) * 10;
-	        appleLocation.y = Math.floor(Math.random() * 50) * 10;
-
-
+			appleLocation.y = Math.floor(Math.random() * 50) * 10;
+			
+			var snakeTail = snake[snake.length - 1];
 
 	        snake.push({
 	            x: snakeTail.x,
 	            y: snakeTail.y
 	        });
 	        score++;
-
 	    }
 	}
 
@@ -230,7 +219,20 @@
 	    ctx.fillText("Score: " + score, 8, 20);
 	}
 
+	function handleMouseClick(evt) {
+		if (gameOver) {
+			startGame();
+			
+			
+			//document.location.reload();
+			
+		}   
+	}  
 
+	function stopGame(interval) {
+		clearInterval(gameInterval); // Needed for Chrome to end game
+	}
+		
+	var gameInterval;
 
-
-	setInterval(Draw, 100);
+	startGame();
