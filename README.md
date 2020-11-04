@@ -4,7 +4,7 @@
  
 #### Play it [here](https://trevorton27.github.io/Application-1SnakeGame/)
  
- ![](rock-scissors-paper%20screenshot.png)
+ ![https://trevorton27.github.io/Application-1SnakeGame/](SnakeGameInstructionsTrevorMearns.png)
  
 ## Instructions
 1. Click on one of the three circular buttons with a rock, paper, or scissors hand icon. The computer will generate a random response to your choice.
