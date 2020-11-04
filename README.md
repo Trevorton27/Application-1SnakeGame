@@ -4,7 +4,7 @@
  
 #### Play it [here](https://trevorton27.github.io/Application-1SnakeGame/)
  
- ![]SnakeGameInstructionsTrevorMearns.png)
+ ![](SnakeGameInstructionsTrevorMearns.png)
  
 ## Summary
 This was my first experience working with JS Canvas and implementing JavaScript language to build a game. It was definitely challenging but a lot of fun in the end. This app really helped me to understand just how many ways there are to use code in the real world.
