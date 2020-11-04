@@ -1,4 +1,4 @@
-﻿# JavaScript Snake GAme
+﻿# JavaScript Snake Game
  
  ###  My own rendition of the classic snake game from the days of the flip phone.
  
